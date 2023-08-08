@@ -12,8 +12,8 @@ test('Install root tasks by default.', () => {
 test('Install tasks at top level.', () => {
   const tasks = install(
     'foo',
-    { name: 'bar', from: 'root' },
-    { name: 'baz' }
+      { name: 'bar', from: 'root', after: 'foo' },
+      { name: 'baz', after: 'bar' }
   )
   expect(tasks).toEqual({
     name: 'root',
@@ -63,8 +63,8 @@ test('Install tasks by order', () => {
   const tasks = install(
     { name: 'foo' },
     { name: 'bar', next: 'foo' },
-    { name: 'baz', prev: 'bar' },
-    { name: 'qux', before: 'bar' },
+      { name: 'baz', prev: 'bar', after: 'foo' },
+      { name: 'qux', before: 'bar', after: ['baz', 'foo'] },
     { name: 'quxx', after: 'qux' }
   )
   expect(tasks).toEqual({
